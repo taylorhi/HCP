@@ -1,13 +1,11 @@
-/**
- * Simple Program to transform user data from "https://jsonplaceholder.typicode.com/users"
- * into an acceptable manner for HCP
- */
 const fetch = require("node-fetch");
 
 const username = "taylorhisaacson@gmail.com";
 const password = "Yivi9083#";
 const usersEndpoint = "https://jsonplaceholder.typicode.com/users";
 const homeCarePulseEndpoint = "https://dev.app.homecarepulse.com/Primary/?FlowId=7423bd80-cddb-11ea-9160-326dddd3e106&Action=api";
+
+
 
 fetch(usersEndpoint)
     .then(response => response.json())
@@ -28,7 +26,7 @@ function parseUsers(json) {
         let firstName = parseName(user.name, true);
         let lastName = parseName(user.name, false);
         let companyName = user.company.name;
-        let address = `${user.address.street}, ${user.address.city}, ${user.address.state}, ${user.address.zipcode}`;
+        let address = `${user.address.street}, ${user.address.city}, ${user.address.zipcode}`;
         let website = user.website;
         let phone = sanitizePhone(user.phone);
 
@@ -106,6 +104,7 @@ function sendUsers(users) {
         method: 'POST',
         body: JSON.stringify(body)
     };
+    console.log(options);
     fetch(homeCarePulseEndpoint, options)
         .then(response => response.json())
         .then(json => {console.log(JSON.stringify(json))});
